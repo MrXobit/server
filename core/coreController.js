@@ -113,8 +113,7 @@ class BrandController {
   }
 
   async editTitleDiaries (req, res) {
-    // const uid = await getUidFromToken(req);
-    const uid = '2GbpNpEZPpaDSiHfCpRsq1QZdWx2'
+    const uid = await getUidFromToken(req);
     const title = req.body.title
     const diariesId = req.body.diariesId
     const index = req.body.index
