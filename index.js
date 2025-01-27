@@ -69,3 +69,11 @@ exports.editDiaries = onRequest((req, res) => {
   logger.info('Add diaries ....', { structuredData: true });
   return CoreController.editDiaries(req, res);
 });
+
+exports.editTitleDiaries = onRequest((req, res) => {
+  if(req.method !== 'PUT') {
+    return res.status(405).json({ error: 'Метод не дозволений, використовуйте POST' });
+  }
+  logger.info('Editing diary titles...', { structuredData: true });
+  return CoreController.editTitleDiaries(req, res);
+})

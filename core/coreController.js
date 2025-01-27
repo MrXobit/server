@@ -82,8 +82,7 @@ class BrandController {
   }
 
   async addDiaries(req, res) {
-    // const uid = await getUidFromToken(req);
-    const uid = '2GbpNpEZPpaDSiHfCpRsq1QZdWx2'
+    const uid = await getUidFromToken(req);
     const title = req.body.title
     console.log('title' + title)
     if (!uid || !title) {
@@ -98,8 +97,7 @@ class BrandController {
   }
 
   async editDiaries (req, res) {
-        // const uid = await getUidFromToken(req);
-        const uid = '2GbpNpEZPpaDSiHfCpRsq1QZdWx2'
+        const uid = await getUidFromToken(req);
         const title = req.body.title
         const diariesId = req.body.diariesId
         console.log('title' + title)
@@ -112,6 +110,23 @@ class BrandController {
         } catch(error) {
           return res.status(500).json({ error: error.message });
         }
+  }
+
+  async editTitleDiaries (req, res) {
+    // const uid = await getUidFromToken(req);
+    const uid = '2GbpNpEZPpaDSiHfCpRsq1QZdWx2'
+    const title = req.body.title
+    const diariesId = req.body.diariesId
+    const index = req.body.index
+    if (!uid || !title || !index) {
+      return res.status(400).json({ error: 'Некоректний uid або title' });
+    }
+    try {
+      const userDiaries = await coreService.editTitleDiaries(uid, title, diariesId, index);
+      return res.status(200).json(userDiaries);
+    } catch(error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 }
 
