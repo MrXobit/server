@@ -425,34 +425,21 @@ async editTitleDiaries(uid, title, diariesId, index) {
   if (!userSnapshot.exists) {
     return { success: false, message: `User with UID ${uid} does not exist.` };
   }
-
   const diaryRef = userRef.collection('diaries').doc(diariesId);
   const diarySnapshot = await diaryRef.get();
-
   if (!diarySnapshot.exists) {
     return { success: false, message: `Diary with ID ${diariesId} does not exist.` };
   }
-
-  // Отримуємо дані документа
   const diaryData = diarySnapshot.data();
-
-  // Отримуємо поле `title`, яке є рядком JSON, і парсимо його
   const titleArray = diaryData.title ? JSON.parse(diaryData.title) : [];
-
   if (index < 0 || index >= titleArray.length) {
     return { success: false, message: `Invalid index ${index}.` };
   }
-
-  // Шифруємо новий заголовок
   const key = diariesId.substring(0, 16);
   const cryptTitle = CryptoService.encrypt(key, title);
-
-  // Оновлюємо значення за індексом
   titleArray[index] = cryptTitle;
-
-  // Записуємо оновлені дані назад у Firestore
   await diaryRef.update({
-    title: JSON.stringify(titleArray), // Конвертуємо масив у JSON-рядок
+    title: JSON.stringify(titleArray), 
   });
 
   return { success: true, message: `Title updated successfully at index ${index}.` };
